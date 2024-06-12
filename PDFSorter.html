@@ -1,24 +1,29 @@
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>File Sorter</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Splitter</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <h1>File Sorter</h1>
-    <div class="file-upload">
-      <input type="file" id="fileInput" style="display: none;" />
-      <label for="fileInput" class="chooseFileBtn">Choose File</label>
-      <button id="removeFileBtn" class="removeFileBtn" disabled>&times;</button>
-      <span id="fileName" class="file-name">No file chosen</span>
+    <div class="container">
+        <div class="file-input">
+            <button id="excelButton" class="btn blue" data-default-text="Select Excel File">Select Excel File</button>
+            <input type="file" id="excelInput" style="display: none;">
+            <button id="removeExcel" class="remove" style="display: none;">Remove</button>
+        </div>
+        <div class="file-input">
+            <button id="pdfButton" class="btn blue" data-default-text="Select PDF File">Select PDF File</button>
+            <input type="file" id="pdfInput" style="display: none;">
+            <button id="removePdf" class="remove" style="display: none;">Remove</button>
+        </div>
+        <div class="file-input">
+            <button id="folderButton" class="btn blue" data-default-text="Select Storing Folder">Select Storing Folder</button>
+            <input type="file" id="folderInput" style="display: none;" webkitdirectory directory>
+            <button id="removeFolder" class="remove" style="display: none;">Remove</button>
+        </div>
+        <button id="splitButton" class="btn grey" disabled>Split</button>
     </div>
-    <button id="uploadBtn">Upload</button>
-    <button id="convertBtn" disabled>Split</button>
-    <button id="downloadBtn" disabled>Download</button>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

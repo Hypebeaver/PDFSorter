@@ -1,76 +1,53 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const fileInput = document.getElementById('fileInput');
-  const chooseFileBtn = document.querySelector('.chooseFileBtn');
-  const removeFileBtn = document.getElementById('removeFileBtn');
-  const uploadBtn = document.getElementById('uploadBtn');
-  const convertBtn = document.getElementById('convertBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const fileNameDisplay = document.getElementById('fileName');
+// script.js
+document.addEventListener('DOMContentLoaded', () => {
+  const excelButton = document.getElementById('excelButton');
+  const excelInput = document.getElementById('excelInput');
+  const removeExcel = document.getElementById('removeExcel');
 
-  // Function to handle file upload
-  function handleFileUpload() {
-    if (fileInput.files.length > 0) {
-      uploadBtn.removeAttribute('disabled');
-      removeFileBtn.removeAttribute('disabled');
-      fileNameDisplay.textContent = fileInput.files[0].name;
-    } else {
-      uploadBtn.setAttribute('disabled', 'disabled');
-      convertBtn.setAttribute('disabled', 'disabled');
-      downloadBtn.setAttribute('disabled', 'disabled');
-      removeFileBtn.setAttribute('disabled', 'disabled');
-      fileNameDisplay.textContent = 'No file chosen';
-    }
+  const pdfButton = document.getElementById('pdfButton');
+  const pdfInput = document.getElementById('pdfInput');
+  const removePdf = document.getElementById('removePdf');
+
+  const folderButton = document.getElementById('folderButton');
+  const folderInput = document.getElementById('folderInput');
+  const removeFolder = document.getElementById('removeFolder');
+
+  const splitButton = document.getElementById('splitButton');
+
+  function updateButtonState(button, removeButton, input, hasFile, fileName) {
+      button.classList.toggle('green', hasFile);
+      button.classList.toggle('blue', !hasFile);
+      button.textContent = hasFile ? fileName : button.getAttribute('data-default-text');
+      removeButton.style.display = hasFile ? 'inline-block' : 'none';
+      input.value = '';
+      updateSplitButtonState();
   }
 
-  // Function to handle removing file
-  function handleFileRemove() {
-    fileInput.value = ''; // Clear the file input
-    uploadBtn.setAttribute('disabled', 'disabled');
-    convertBtn.setAttribute('disabled', 'disabled');
-    downloadBtn.setAttribute('disabled', 'disabled');
-    removeFileBtn.setAttribute('disabled', 'disabled');
-    fileNameDisplay.textContent = 'No file chosen';
+  function updateSplitButtonState() {
+      const allSelected = [excelButton, pdfButton, folderButton].every(button => button.classList.contains('green'));
+      splitButton.disabled = !allSelected;
+      splitButton.classList.toggle('grey', !allSelected);
+      splitButton.classList.toggle('blue', allSelected);
   }
 
-  // Function to simulate file upload
-  function uploadFile() {
-    // Your upload logic here
-    console.log('File uploaded');
-    convertBtn.removeAttribute('disabled');
-  }
-
-  // Function to simulate file conversion
-  function convertFile() {
-    // Your conversion logic here
-    console.log('File converted');
-    downloadBtn.removeAttribute('disabled');
-  }
-
-  // Function to simulate file download
-  function downloadFile() {
-    // Your download logic here
-    console.log('File downloaded');
-  }
-
-  chooseFileBtn.addEventListener('click', () => {
-    fileInput.click(); // Simulate click on file input
+  excelButton.addEventListener('click', () => excelInput.click());
+  excelInput.addEventListener('change', () => {
+      const fileName = excelInput.files.length > 0 ? excelInput.files[0].name : '';
+      updateButtonState(excelButton, removeExcel, excelInput, excelInput.files.length > 0, fileName);
   });
+  removeExcel.addEventListener('click', () => updateButtonState(excelButton, removeExcel, excelInput, false, ''));
 
-  removeFileBtn.addEventListener('click', handleFileRemove);
-
-  fileInput.addEventListener('change', handleFileUpload);
-
-  uploadBtn.addEventListener('click', () => {
-    uploadFile();
-    convertBtn.removeAttribute('disabled');
+  pdfButton.addEventListener('click', () => pdfInput.click());
+  pdfInput.addEventListener('change', () => {
+      const fileName = pdfInput.files.length > 0 ? pdfInput.files[0].name : '';
+      updateButtonState(pdfButton, removePdf, pdfInput, pdfInput.files.length > 0, fileName);
   });
+  removePdf.addEventListener('click', () => updateButtonState(pdfButton, removePdf, pdfInput, false, ''));
 
-  convertBtn.addEventListener('click', convertFile);
-
-  downloadBtn.addEventListener('click', downloadFile);
-
-  // Initially disable all buttons except Choose File and Remove File
-  uploadBtn.setAttribute('disabled', 'disabled');
-  convertBtn.setAttribute('disabled', 'disabled');
-  downloadBtn.setAttribute('disabled', 'disabled');
+  folderButton.addEventListener('click', () => folderInput.click());
+  folderInput.addEventListener('change', () => {
+      const fileName = folderInput.files.length > 0 ? folderInput.files[0].webkitRelativePath.split('/')[0] : '';
+      updateButtonState(folderButton, removeFolder, folderInput, folderInput.files.length > 0, fileName);
+  });
+  removeFolder.addEventListener('click', () => updateButtonState(folderButton, removeFolder, folderInput, false, ''));
 });
