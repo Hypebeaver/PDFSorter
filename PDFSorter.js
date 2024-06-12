@@ -1,94 +1,76 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 20px;
-}
+document.addEventListener("DOMContentLoaded", function () {
+  const fileInput = document.getElementById('fileInput');
+  const chooseFileBtn = document.querySelector('.chooseFileBtn');
+  const removeFileBtn = document.getElementById('removeFileBtn');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const convertBtn = document.getElementById('convertBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const fileNameDisplay = document.getElementById('fileName');
 
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+  // Function to handle file upload
+  function handleFileUpload() {
+    if (fileInput.files.length > 0) {
+      uploadBtn.removeAttribute('disabled');
+      removeFileBtn.removeAttribute('disabled');
+      fileNameDisplay.textContent = fileInput.files[0].name;
+    } else {
+      uploadBtn.setAttribute('disabled', 'disabled');
+      convertBtn.setAttribute('disabled', 'disabled');
+      downloadBtn.setAttribute('disabled', 'disabled');
+      removeFileBtn.setAttribute('disabled', 'disabled');
+      fileNameDisplay.textContent = 'No file chosen';
+    }
+  }
 
-h1 {
-  text-align: center;
-}
+  // Function to handle removing file
+  function handleFileRemove() {
+    fileInput.value = ''; // Clear the file input
+    uploadBtn.setAttribute('disabled', 'disabled');
+    convertBtn.setAttribute('disabled', 'disabled');
+    downloadBtn.setAttribute('disabled', 'disabled');
+    removeFileBtn.setAttribute('disabled', 'disabled');
+    fileNameDisplay.textContent = 'No file chosen';
+  }
 
-.file-upload {
-  display: flex;
-  align-items: center;
-}
+  // Function to simulate file upload
+  function uploadFile() {
+    // Your upload logic here
+    console.log('File uploaded');
+    convertBtn.removeAttribute('disabled');
+  }
 
-input[type="file"] {
-  display: none;
-}
+  // Function to simulate file conversion
+  function convertFile() {
+    // Your conversion logic here
+    console.log('File converted');
+    downloadBtn.removeAttribute('disabled');
+  }
 
-.chooseFileBtn {
-  display: inline-block;
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-right: 10px;
-}
+  // Function to simulate file download
+  function downloadFile() {
+    // Your download logic here
+    console.log('File downloaded');
+  }
 
-.chooseFileBtn:hover {
-  background-color: #0056b3;
-}
+  chooseFileBtn.addEventListener('click', () => {
+    fileInput.click(); // Simulate click on file input
+  });
 
-.removeFileBtn {
-  padding: 5px;
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 16px;
-  width: 20px; /* Adjust the width as needed */
-  height: 20px; /* Ensure the height matches for a circle button */
-  display: flex; /* Center content horizontally and vertically */
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-  margin-left: 5px; /* Adjust the margin to add some space */
-}
+  removeFileBtn.addEventListener('click', handleFileRemove);
 
-.removeFileBtn:hover {
-  background-color: #c82333;
-}
+  fileInput.addEventListener('change', handleFileUpload);
 
-.file-name {
-  margin-left: 10px;
-  color: #333;
-  font-size: 14px;
-}
+  uploadBtn.addEventListener('click', () => {
+    uploadFile();
+    convertBtn.removeAttribute('disabled');
+  });
 
-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+  convertBtn.addEventListener('click', convertFile);
 
-button:hover {
-  background-color: #0056b3;
-}
+  downloadBtn.addEventListener('click', downloadFile);
 
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
+  // Initially disable all buttons except Choose File and Remove File
+  uploadBtn.setAttribute('disabled', 'disabled');
+  convertBtn.setAttribute('disabled', 'disabled');
+  downloadBtn.setAttribute('disabled', 'disabled');
+});
